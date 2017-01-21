@@ -1,0 +1,5 @@
+SMTP_SERVER_HOST = "127.0.0.1"
+SMTP_SERVER_PORT = 25
+
+LOG_FILE_NAME = "WebQuestionnaire.log"
+MAX_LOG_FILE_SIZE =
