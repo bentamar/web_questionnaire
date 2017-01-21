@@ -1,4 +1,4 @@
-from web_questionnaire.email.messageconsturctor import consts
+from web_questionnaire.emails.messageconsturctor import consts
 
 TEMPLATE_NAMES_TO_FILENAMES = {consts.ACTIVATE_EMAIL_TEMPLATE_NAME: "activate_email.html",
                                consts.QUESTIONNAIRE_RESULTS_TEMPLATE_NAME: "questionnaire_results.html",

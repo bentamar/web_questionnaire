@@ -19,9 +19,9 @@ class EmailController(object):
 
     def send_mail(self, sender, receiver, message):
         """
-        Sends an email
-        :param sender: The sender of the email
-        :param receiver: The receiver of the email
+        Sends an emails
+        :param sender: The sender of the emails
+        :param receiver: The receiver of the emails
         :param message: The message to send
         """
         # todo: except except except
