@@ -1,5 +1,6 @@
 import os
-from web_questionnaire.emails.messageconsturctor import config, consts
+
+from web_questionnaire import config
 
 
 class TemplateFetcher(object):
@@ -14,7 +15,7 @@ class TemplateFetcher(object):
         :param template_name: The name of the template to fetch
         :return: The template
         """
-        template_file_name = os.path.join(config.TEMPLATES_DIRECTORY,
-                                          config.TEMPLATE_NAMES_TO_FILENAMES[template_name])
+        template_file_name = os.path.join(config.Email.EMAIL_TEMPLATES_DIRECTORY,
+                                          )
         with open(template_file_name, "rb") as template_file:
             return template_file.read()
