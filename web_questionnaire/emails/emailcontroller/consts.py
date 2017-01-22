@@ -1,0 +1,1 @@
+EMAIL_CONTROLLER_LOGGER_NAME = "EmailController"
