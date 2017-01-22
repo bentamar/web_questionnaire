@@ -4,9 +4,10 @@ from flask import render_template
 
 from web_questionnaire import config
 from web_questionnaire.emails.messageconsturctor import consts
+from web_questionnaire.emails.messageconsturctor.messageconsturctorbase import MessageConstructorBase
 
 
-class FlaskMessageConstructor(object):
+class FlaskMessageConstructor(MessageConstructorBase):
     """
     Constructs email messages.
     """
