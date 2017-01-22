@@ -22,6 +22,11 @@ class ExtraLogger(logging.Logger):
 
 
 def get_logger(logger_name):
+    """
+    Fetches a logger, new or existing.
+    :param logger_name: The name of the logger to fetch
+    :return: The logger
+    """
     if logger_name in logger_instances:
         return logging.getLogger(logger_name)
     logger_instances.append(logger_name)
