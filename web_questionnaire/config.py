@@ -17,6 +17,4 @@ class Logging(object):
     MAX_LOG_FILE_SIZE_MB = 1024 * 1024 * 5
     MAX_LOG_FILES = 5
     LOGGING_LEVEL = logging.DEBUG
-    LOG_FORMAT = "%(asctime)s - %(module)s - %(levelname)s - %(message)s - %(extra)s"
-
-
+    LOG_FORMAT = "%(asctime)s - %(name)s - %(module)s - %(levelname)s - %(message)s - %(extra)s"
