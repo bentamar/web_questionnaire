@@ -11,14 +11,14 @@ class MongoDbController(object):
         find, aggregate, remove and update.
     """
 
-    def __init__(self, hosts, db_name=None):
+    def __init__(self, db_connection_details, db_name=None):
         """
         Initiates the object
-        :param hosts: The hosts of the Mongo servers to connect to.
+        :param db_connection_details: The object containing hosts of the Mongo servers to connect to.
         :param db_name: The name of the DB to use
         """
         try:
-            self._connection = MongoClient(hosts)
+            self._connection = MongoClient(db_connection_details.hosts)
         except errors.ConnectionFailure as e:
             raise exceptions.ConnectionError(str(e))
         self._db = self._connection[db_name]
