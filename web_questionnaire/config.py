@@ -18,3 +18,7 @@ class Logging(object):
     MAX_LOG_FILES = 5
     LOGGING_LEVEL = logging.DEBUG
     LOG_FORMAT = "%(asctime)s - %(name)s - %(module)s - %(levelname)s - %(message)s - %(extra)s"
+
+
+class Mongo(object):
+    MAX_NUM_OF_RETRIES = 3
