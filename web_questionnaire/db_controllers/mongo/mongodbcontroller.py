@@ -21,10 +21,22 @@ class MongoDbController(object):
             self._connection = MongoClient(db_connection_details.hosts)
         except errors.ConnectionFailure as e:
             raise exceptions.ConnectionError(str(e))
-        self._db = self._connection[db_name]
+        self._db = None
+        if db_name:
+            self._db = self._connection[db_name]
+
+
+    def set_db_name(self, db_name):
+        """
+        Sets the current DB to the given one.
+        :param db_name:
+        :return:
+        """
 
     @run_safe_query
     def find(self, collection_name, match_filter, projection):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
         cursor = self._db[collection_name].find(match_filter, projection)
         if cursor:
             return list(cursor)

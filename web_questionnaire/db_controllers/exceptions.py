@@ -15,7 +15,14 @@ class QueryRunError(GeneralDbError):
     An exception for a query run failure.
     """
 
+
 class ConnectionError(GeneralDbError):
     """
     A connection failure with the DB.
+    """
+
+
+class DbNotInitializedError(GeneralDbError):
+    """
+    The DB was not initialized, but an attempt to use has occurred.
     """

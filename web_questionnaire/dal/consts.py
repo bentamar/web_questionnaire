@@ -1,0 +1,1 @@
+DAL_LOGGER_NAME = "DAL Logger"
