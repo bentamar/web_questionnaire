@@ -5,7 +5,7 @@ setup(
     packages=["web_questionnaire"],
     include_package_data=True,
     install_requires=[
-        "flask",
+        "django",
         "email",
         "smtplib",
         "pymongo"

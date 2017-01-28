@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 from pymongo import errors
 
-from web_questionnaire.db_controllers.mongo.retrydecorator import run_safe_query
 from web_questionnaire.db_controllers import exceptions
+from web_questionnaire.db_controllers.mongo.retrydecorator import run_safe_query
 
 
 class MongoDbController(object):
@@ -25,13 +25,15 @@ class MongoDbController(object):
         if db_name:
             self._db = self._connection[db_name]
 
-
-    def set_db_name(self, db_name):
+    def set_db(self, db_name):
         """
         Sets the current DB to the given one.
-        :param db_name:
-        :return:
+        :param db_name: The name of the DB to set.
         """
+        try:
+            self._db = self._connection[db_name]
+        except Exception as e:
+            raise exceptions.GeneralDbError(str(e))
 
     @run_safe_query
     def find(self, collection_name, match_filter, projection):
