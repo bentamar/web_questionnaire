@@ -36,16 +36,22 @@ class MongoDbController(object):
             raise exceptions.GeneralDbError(str(e))
 
     @run_safe_query
-    def find(self, collection_name, match_filter, projection):
+    def find(self, collection_name, match_filter, projection=None):
         if not self._db:
             raise exceptions.DbNotInitializedError()
+        if not projection:
+            projection = {}
         cursor = self._db[collection_name].find(match_filter, projection)
         if cursor:
             return list(cursor)
         return []
 
     @run_safe_query
-    def find_one(self, collection_name, match_filter, projection):
+    def find_one(self, collection_name, match_filter, projection=None):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
+        if not projection:
+            projection = {}
         result = self._db[collection_name].find_one(match_filter, projection)
         if result:
             return result
@@ -53,20 +59,28 @@ class MongoDbController(object):
 
     @run_safe_query
     def update_one(self, collection_name, match_filter, update_dict):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
         cursor = self._db[collection_name].update_one(match_filter, update_dict)
         return cursor.modified_count
 
     @run_safe_query
     def update_many(self, collection_name, match_filter, update_dict):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
         cursor = self._db[collection_name].update_many(match_filter, update_dict)
         return cursor.modified_count
 
     @run_safe_query
     def delete_many(self, collection_name, match_filter):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
         cursor = self._db[collection_name].delete_many(match_filter)
         return cursor.deleted_count
 
     @run_safe_query
     def delete_many(self, collection_name, match_filter):
+        if not self._db:
+            raise exceptions.DbNotInitializedError()
         cursor = self._db[collection_name].delete_one(match_filter)
         return cursor.deleted_count
