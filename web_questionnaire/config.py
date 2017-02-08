@@ -22,3 +22,7 @@ class Logging(object):
 
 class Mongo(object):
     MAX_NUM_OF_RETRIES = 3
+
+
+class Users(object):
+    USER_TYPES_ALLOWED_TO_SUBMIT_QUESTIONNAIRES = ["Submitter", "Admin"]

@@ -20,3 +20,5 @@ class QuestionnaireFetcher(object):
         """
         match_dict, projection = questionnaire.get_questionnaire_query(questionnaire_id)
         return self._db_controller.find_one(consts.QUESTIONNAIRES_COLLECTION_NAME, match_dict, projection)
+
+    def submit_questionnaire(self, questions, max_answer_interval, submitter_id):
