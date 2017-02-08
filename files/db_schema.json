@@ -1,0 +1,61 @@
+QUESTIONNAIRES:
+ {
+	questionnaire_id: 1001,
+	submitter_user_id: 999,
+	creation_date: ISODate(),
+	last_modified_date: null,
+	max_answer_time_minutes: 2,
+	questions: [{
+			question_id: 678,
+			question_content: 'what is your favourite color?',
+			answers: [{
+					answer_content: 'white',
+					attribute_points: {
+						math: 80
+					}
+				}, {
+					answer_content: 'black',
+					attribute_points: {
+						math: 50
+					}
+				},
+				...
+			]
+		}, {
+			question_id: 443,
+			question_content: 'where were you born?',
+			answers: [{
+					answer_content: 'Rehovot',
+                    answer_id: 3332,
+					attribute_points: {
+						creativity: 60
+					}
+				}, {
+					answer_content: 'Tel-Aviv',
+                    answer_id: 3532,
+					attribute_points: {
+						creativity: 100
+					}
+				},
+				...
+			]
+		}
+	]
+}
+
+// USERS:
+// Password reset: send an email with a NEW verification hash. clicking the link will allow the user to update the password.
+{
+	user_id: 928,
+	user_type: 'Referrer'
+	first_name: 'Shlomo',
+	last_name: 'Cohen'
+	cell_number: '0542243120'
+	email: bla@gmail.com,
+	user_state: 'activated', // Possible states: activated (valid account), unactivated(didn't activate via mail yet)
+	update_time: ISODate()
+	password_hash: 'LKJA2AK43MFJAMA4'
+	verification_hash: 'KJHSDF843NMWS' // Used for both password reset and initial registration
+	submitted_questionnaires_ids: [1001],
+	allowd_refferals_questionnaires_ids: [1001, 293]
+}
