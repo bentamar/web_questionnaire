@@ -43,6 +43,7 @@ QUESTIONNAIRES:
 	]
 }
 
+
 // USERS:
 // Password reset: send an email with a NEW verification hash. clicking the link will allow the user to update the password.
 {
@@ -59,3 +60,22 @@ QUESTIONNAIRES:
 	submitted_questionnaires_ids: [1001],
 	allowd_refferals_questionnaires_ids: [1001, 293]
 }
+
+=================SQL=================        
+QUESTIONNAIRES:
+        id, submitter_user_id, creation_date, last_modifed_date, max_answer_time_minutes
+
+QUESTIONS:
+        id, questionnaire_id(foreign key), question_text
+
+CHOICES:
+        id, question_id(foreign key), choice_text, attribute_key, attribute_value
+
+USER_TYPES:
+        id, type
+USERS:
+        id, user_type_id(foreign key), first_name, last_name, cell_number, email, user_state,
+        update_time, password_hash, verification_hash
+
+ALOWED_USER_REFERALS:
+        questionnaire_id(foreign key), user_id(foreign key)
