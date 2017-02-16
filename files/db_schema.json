@@ -79,3 +79,6 @@ USERS:
 
 ALOWED_USER_REFERALS:
         questionnaire_id(foreign key), user_id(foreign key)
+USER_CHOICES:
+		id, submittion_id, question_id(foreign key), user_id(foreign key), choice_id(foreign key), questionnaire_id(foreign key),
+		insertion_time
