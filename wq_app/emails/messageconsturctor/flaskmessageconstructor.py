@@ -2,9 +2,9 @@ from email.mime.text import MIMEText
 
 from flask import render_template
 
-from web_questionnaire import config
-from web_questionnaire.emails.messageconsturctor import consts
-from web_questionnaire.emails.messageconsturctor.messageconsturctorbase import MessageConstructorBase
+from wq_project import config
+from wq_project.emails.messageconsturctor import consts
+from wq_project.emails.messageconsturctor.messageconsturctorbase import MessageConstructorBase
 
 
 class FlaskMessageConstructor(MessageConstructorBase):

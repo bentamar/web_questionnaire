@@ -1,4 +1,4 @@
-from web_questionnaire.db_controllers.connectiondetaills.connectiondetailsbase import ConnectionDetailsBase
+from wq_project.db_controllers.connectiondetaills.connectiondetailsbase import ConnectionDetailsBase
 
 
 class MongoConnectionDetails(ConnectionDetailsBase):

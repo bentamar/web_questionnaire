@@ -1,8 +1,8 @@
 import smtplib
 
-from web_questionnaire import config
-from web_questionnaire.emails.emailcontroller import consts, exceptions
-from web_questionnaire.logger.logger import get_logger
+from wq_project import config
+from wq_project.emails.emailcontroller import consts, exceptions
+from wq_project.logger.logger import get_logger
 
 
 class EmailController(object):

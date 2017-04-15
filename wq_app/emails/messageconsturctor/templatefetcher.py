@@ -1,6 +1,6 @@
 import os
 
-from web_questionnaire import config
+from wq_project import config
 
 
 class TemplateFetcher(object):

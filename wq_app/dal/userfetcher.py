@@ -1,8 +1,8 @@
-from web_questionnaire import config
-from web_questionnaire.dal import consts
-from web_questionnaire.dal.querygenerators import user
-from web_questionnaire.db_controllers.mongo.mongodbcontroller import MongoDbController
-from web_questionnaire.logger.logger import get_logger
+from wq_project import config
+from wq_project.dal import consts
+from wq_project.dal.querygenerators import user
+from wq_project.db_controllers.mongo.mongodbcontroller import MongoDbController
+from wq_project.logger.logger import get_logger
 
 
 class QuestionnaireFetcher(object):

@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 from pymongo import errors
 
-from web_questionnaire.db_controllers import exceptions
-from web_questionnaire.db_controllers.mongo.retrydecorator import run_safe_query
+from wq_project.db_controllers import exceptions
+from wq_project.db_controllers.mongo.retrydecorator import run_safe_query
 
 
 class MongoDbController(object):

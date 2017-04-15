@@ -1,5 +1,5 @@
-from web_questionnaire.db_controllers.connectiondetaills import exceptions
-from web_questionnaire.db_controllers.connectiondetaills.mongoconnectiondetails import MongoConnectionDetails
+from wq_project.db_controllers.connectiondetaills import exceptions
+from wq_project.db_controllers.connectiondetaills.mongoconnectiondetails import MongoConnectionDetails
 
 DB_TYPE_TO_CLASS = {
     "Mongo": MongoConnectionDetails

@@ -1,7 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 
-from web_questionnaire import config
+from wq_project import config
 
 logger_instances = []
 

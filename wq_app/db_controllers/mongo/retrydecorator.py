@@ -1,7 +1,7 @@
 from pymongo.errors import AutoReconnect
 
-from web_questionnaire import config
-from web_questionnaire.db_controllers import exceptions
+from wq_project import config
+from wq_project.db_controllers import exceptions
 
 
 def run_safe_query(func):
