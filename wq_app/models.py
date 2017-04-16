@@ -7,7 +7,18 @@ class UserType(models.Model):
     """
     Different user types. For example - simple user, admin.
     """
-    type = models.CharField(max_length=50)
+    ADMIN = 'AD'
+    REFERRER = 'RF'
+    NORMAL = 'NR'
+    DELETED = 'DL'
+    USER_STATES = [
+        (ADMIN, 'Administrator'),
+        (REFERRER, "Referrer"),
+        (NORMAL, "Normal user"),
+        (DELETED, "Deleted")
+    ]
+
+    type = models.CharField(max_length=50, choices=USER_STATES, default=NORMAL)
 
     def __str__(self):
         return self.type
@@ -20,15 +31,11 @@ class User(models.Model):
     """
     User login data and metadata
     """
-    ADMIN = 'AD'
-    REFERRER = 'RF'
-    NORMAL = 'NR'
-    DELETED = 'DL'
+    ACTIVATED = 'AC'
+    UNACTIVATED = 'UA'
     USER_STATES = [
-        (ADMIN, 'Administrator'),
-        (REFERRER, "Referrer"),
-        (NORMAL, "Normal user"),
-        (DELETED, "Deleted")
+        (ACTIVATED, 'Activated'),
+        (UNACTIVATED, "Unactivated")
     ]
 
     def __str__(self):
@@ -39,7 +46,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=50)
     cell_number = models.CharField(max_length=20, null=True)
     email = models.CharField(max_length=50)
-    user_state = models.CharField(max_length=30, choices=USER_STATES, default=NORMAL)
+    user_state = models.CharField(max_length=30, choices=USER_STATES, default=UNACTIVATED)
     modified_at = models.DateTimeField('last modified at', auto_now=True)
     password_hash = models.CharField(max_length=50)
     verification_hash = models.CharField(max_length=50)
