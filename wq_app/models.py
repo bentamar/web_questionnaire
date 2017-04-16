@@ -17,15 +17,36 @@ class User(models.Model):
     """
     User login data and metadata
     """
+    ADMIN = 'AD'
+    REFERRER = 'RF'
+    NORMAL = 'NR'
+    DELETED = 'DL'
+    USER_STATES = [
+        (ADMIN, 'Administrator'),
+        (REFERRER, "Referrer"),
+        (NORMAL, "Normal user"),
+        (DELETED, "Deleted")
+    ]
+
+    def __str__(self):
+        return self.email
+
     user_type = models.ForeignKey(UserType, null=True, on_delete=models.SET_NULL)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     cell_number = models.CharField(max_length=20, null=True)
     email = models.CharField(max_length=50)
-    user_state = models.CharField(max_length=30)
+    user_state = models.CharField(max_length=30, choices=USER_STATES, default=NORMAL)
     modified_at = models.DateTimeField('last modified at', auto_now=True)
     password_hash = models.CharField(max_length=50)
     verification_hash = models.CharField(max_length=50)
+
+    def is_admin(self):
+        """
+        Returns whether or not the user is an administrator
+        :return: Whether or not the user is an administrator
+        """
+        return self.user_state == self.ADMIN
 
     class Meta:
         db_table = 'users'
