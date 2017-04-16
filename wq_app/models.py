@@ -3,8 +3,42 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class UserType(models.Model):
+    """
+    Different user types. For example - simple user, admin.
+    """
+    type = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'user_types'
+
+
+class User(models.Model):
+    """
+    User login data and metadata
+    """
+    user_type = models.ForeignKey(UserType, null=True, on_delete=models.SET_NULL)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    cell_number = models.CharField(max_length=20, null=True)
+    email = models.CharField(max_length=50)
+    user_state = models.CharField(max_length=30)
+    modified_at = models.DateTimeField('last modified at', auto_now=True)
+    password_hash = models.CharField(max_length=50)
+    verification_hash = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'users'
+
+
 def get_sentinel_user():
-    return User.objects.get_or_create(first_name='deleted')
+    """
+    Creates a deleted user object - if it already exists, it returns it.
+    :return: The user object
+    """
+
+    return User.objects.get_or_create(first_name='deleted', last_name='deleted', user_state='deleted',
+                                      email='deleted', )
 
 
 class Questionnaire(models.Model):
@@ -13,8 +47,11 @@ class Questionnaire(models.Model):
     """
     submitter = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
     created_at = models.DateTimeField('date created')
-    modified_at = models.DateTimeField('date modified')
+    modified_at = models.DateTimeField('date modified', auto_now=True)
     max_answer_time_minutes = models.FloatField()
+
+    class Meta:
+        db_table = 'questionnaires'
 
 
 class Question(models.Model):
@@ -24,34 +61,21 @@ class Question(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=300)
 
+    class Meta:
+        db_table = 'questions'
+
 
 class Choice(models.Model):
     """
     A possible choice of a question
     """
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=300)
+    attribute_key = models.CharField(max_length=50)
+    attribute_value = models.FloatField()
 
-
-class UserType(models.Model):
-    """
-    Different user types. For example - simple user, admin.
-    """
-    type = models.CharField(max_length=50)
-
-
-class User(models.Model):
-    """
-    User login data and metadata
-    """
-    user_type = models.ForeignKey(UserType, on_delete=models.SET_NULL)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    cell_number = models.CharField(max_length=20)
-    email = models.CharField(max_length=50)
-    user_state = models.CharField(max_length=30)
-    modified_at = models.DateTimeField('last modified at')
-    password_hash = models.CharField(max_length=50)
-    verification_hash = models.CharField(max_length=50)
+    class Meta:
+        db_table = 'choices'
 
 
 class AllowedUserReferrals(models.Model):
@@ -61,3 +85,20 @@ class AllowedUserReferrals(models.Model):
     """
     questionnaire = models.ForeignKey(Questionnaire)
     user = models.ForeignKey(User)
+
+    class Meta:
+        db_table = 'allowed_user_referrals'
+
+
+class UserChoice(models.Model):
+    """
+    A choice A user made on a questionnaire.
+    """
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    created_at = models.DateTimeField('last modified at', auto_now_add=True)
+
+    class Meta:
+        db_table = 'user_choices'
