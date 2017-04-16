@@ -56,7 +56,7 @@ class User(models.Model):
         Returns whether or not the user is an administrator
         :return: Whether or not the user is an administrator
         """
-        return self.user_state == self.ADMIN
+        return self.user_type.type == UserType.ADMIN
 
     class Meta:
         db_table = 'users'
