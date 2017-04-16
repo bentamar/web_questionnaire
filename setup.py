@@ -7,7 +7,6 @@ setup(
     install_requires=[
         "django",
         "email",
-        "smtplib",
-        "pymongo"
+        "smtplib"
     ]
 )
