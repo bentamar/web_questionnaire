@@ -58,6 +58,13 @@ class User(models.Model):
         """
         return self.user_type.type == UserType.ADMIN
 
+    def is_activated(self):
+        """
+        Returns whether or not the user is activated
+        :return: Whether or not the user is activated
+        """
+        return self.user_state == self.ACTIVATED
+
     class Meta:
         db_table = 'users'
 
