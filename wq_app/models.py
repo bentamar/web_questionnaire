@@ -6,7 +6,7 @@ from django.db import models
 
 class UserMeta(models.Model):
     """
-    User login data and metadata
+    User metadata which includes activation fields for confirming Email addresses and password changes
     """
 
     def __str__(self):
@@ -93,7 +93,7 @@ class AllowedUserReferrals(models.Model):
 
 class UserChoice(models.Model):
     """
-    A choice A user made on a questionnaire.
+    A choice a user made on a questionnaire.
     """
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(UserMeta, on_delete=models.CASCADE)
