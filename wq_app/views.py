@@ -1,10 +1,13 @@
 import hashlib
 import random
+import datetime
+from time import timezone
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.crypto import get_random_string
 
 from wq_app import forms
+from wq_app.models import UserMeta
 
 
 def generate_activation_key(username):
@@ -50,8 +53,8 @@ def register(request):
 def activation(request, key):
     activation_expired = False
     already_active = False
-    profile = get_object_or_404(Profile, activation_key=key)
-    if profile.user.is_active == False:
+    profile = get_object_or_404(UserMeta, activation_key=key)
+    if not profile.user.is_active:
         if timezone.now() > profile.key_expires:
             activation_expired = True  # Display: offer the user to send a new activation link
             id_user = profile.user.id
@@ -69,7 +72,7 @@ def new_activation_link(request, user_id):
     # todo: check for correct user
     form = forms.RegistrationForm()
     datas = {}
-    user = User.objects.get(id=user_id)
+    user = UserMeta.objects.get(id=user_id)
     if user is not None and not user.is_active:
         datas['username'] = user.username
         datas['email'] = user.email
@@ -82,7 +85,7 @@ def new_activation_link(request, user_id):
             usernamesalt = usernamesalt.encode('utf8')
         datas['activation_key'] = hashlib.sha1(salt + usernamesalt).hexdigest()
 
-        profile = Profile.objects.get(user=user)
+        profile = UserMeta.objects.get(user=user)
         profile.activation_key = datas['activation_key']
         profile.key_expires = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=2),
                                                          "%Y-%m-%d %H:%M:%S")

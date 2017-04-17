@@ -1,6 +1,6 @@
 import logging
 
-from web_questionnaire.emails.messageconsturctor import consts
+from wq_app.emails.messageconsturctor import consts
 
 
 class Email(object):
