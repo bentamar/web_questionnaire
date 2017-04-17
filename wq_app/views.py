@@ -26,7 +26,7 @@ def register(request):
             datas = {}
             datas['username'] = form.cleaned_data['username']
             datas['email'] = form.cleaned_data['email']
-            datas['password1'] = form.cleaned_data['password1']
+            datas['first_password_input'] = form.cleaned_data['first_password_input']
 
             # We generate a random activation key
             salt = hashlib.sha1(str(random.random())).hexdigest()[:5]

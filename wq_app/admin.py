@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Question, Questionnaire, AllowedUserReferrals, UserMeta, UserChoice, Choice
+
+admin.site.register([Question, Questionnaire, AllowedUserReferrals, UserMeta, UserChoice, Choice])

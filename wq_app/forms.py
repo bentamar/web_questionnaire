@@ -1,7 +1,9 @@
 import datetime
 
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.core import validators
+from django.core.mail import send_mail
 from django.forms.utils import ErrorList
 from django.contrib.auth.models import User
 
@@ -10,19 +12,19 @@ from wq_app.models import UserMeta
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='', widget=forms.TextInput(
-        attrs={'placeholder': 'Username', 'class': 'form-control input-perso'}), max_length=30, min_length=3,
-                               validators=[isValidUsername, validators.validate_slug])
+        attrs={'placeholder': 'Username', 'class': 'form-control'}), max_length=30, min_length=3,
+                               validators=[validators.validate_slug])
     email = forms.EmailField(label='', widget=forms.EmailInput(
-        attrs={'placeholder': 'Email', 'class': 'form-control input-perso'}), max_length=100,
-                             error_messages={'invalid': ('Email invalide.')}, validators=[validators.EmailValidator])
-    password1 = forms.CharField(label='', max_length=50, min_length=6,
-                                widget=forms.PasswordInput(
-                                    attrs={'placeholder': 'Mot de passe', 'class': 'form-control input-perso'}))
-    password2 = forms.CharField(label='', max_length=50, min_length=6,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Confirmer mot de passe',
-                                                                  'class': 'form-control input-perso'}))
+        attrs={'placeholder': 'Email', 'class': 'form-control'}), max_length=100,
+                             error_messages={'invalid': 'Email is invalid.'}, validators=[validators.EmailValidator])
+    first_password_input = forms.CharField(label='', max_length=50, min_length=6,
+                                           widget=forms.PasswordInput(
+                                               attrs={'placeholder': 'Password', 'class': 'form-control'}))
+    second_password_input = forms.CharField(label='', max_length=50, min_length=6,
+                                            widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password',
+                                                                              'class': 'form-control'}))
 
-    # recaptcha = ReCaptchaField()
+    recaptcha = ReCaptchaField()
 
     def clean(self):
         first_password_input = self.cleaned_data.get('first_password_input')
@@ -37,7 +39,7 @@ class RegistrationForm(forms.Form):
     def save(self, datas):
         u = User.objects.create_user(datas['username'],
                                      datas['email'],
-                                     datas['password1'])
+                                     datas['first_password_input'])
         u.is_active = False
         u.save()
         profile = UserMeta()
