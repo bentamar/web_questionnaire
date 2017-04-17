@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('key_expiration', models.DateTimeField(null=True)),
             ],
             options={
-                'db_table': 'users',
+                'db_table': 'usermeta',
             },
         ),
         migrations.RemoveField(

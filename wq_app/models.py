@@ -18,7 +18,7 @@ class UserMeta(models.Model):
     key_expiration = models.DateTimeField(null=True)
 
     class Meta:
-        db_table = 'users'
+        db_table = 'users_meta'
 
 
 def get_sentinel_user():
