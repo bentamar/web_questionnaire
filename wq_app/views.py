@@ -3,11 +3,15 @@ import random
 import datetime
 from time import timezone
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.utils.crypto import get_random_string
+from django.urls import reverse
 
 from wq_app import forms
 from wq_app.models import UserMeta
+from wq_app.logger.logger import get_logger
 
 
 def generate_activation_key(username):
@@ -95,3 +99,17 @@ def new_activation_link(request, user_id):
         request.session['new_link'] = True  # Display: new link sent
 
     return redirect(home)
+
+
+def login_user(request):
+    logger = get_logger('views')
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        logger.info('logged user in', extra={'username': username})
+        return HttpResponseRedirect(reverse('wq_app:index'))
+    else:
+        # Redisplay the login page with an error message
+        render(request, 'wq_app/login_page.html', {'error_message': 'The username or password given are incorrect.'})
