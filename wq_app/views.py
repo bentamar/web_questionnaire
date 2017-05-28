@@ -15,8 +15,7 @@ from wq_app.logger.logger import get_logger
 
 
 def generate_activation_key(username):
-    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    secret_key = get_random_string(20, chars)
+    secret_key = get_random_string(20)
     return hashlib.sha256((secret_key + username).encode('utf-8')).hexdigest()
 
 
@@ -89,11 +88,11 @@ def new_activation_link(request, user_id):
             usernamesalt = usernamesalt.encode('utf8')
         datas['activation_key'] = hashlib.sha1(salt + usernamesalt).hexdigest()
 
-        profile = UserMeta.objects.get(user=user)
-        profile.activation_key = datas['activation_key']
-        profile.key_expires = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=2),
-                                                         "%Y-%m-%d %H:%M:%S")
-        profile.save()
+        user_meta = UserMeta.objects.get(user=user)
+        user_meta.activation_key = datas['activation_key']
+        user_meta.key_expires = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=2),
+                                                           "%Y-%m-%d %H:%M:%S")
+        user_meta.save()
 
         form.sendEmail(datas)
         request.session['new_link'] = True  # Display: new link sent

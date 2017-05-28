@@ -1,8 +1,8 @@
 import smtplib
 
-from wq_project import config
-from wq_project.emails.emailcontroller import consts, exceptions
-from wq_project.logger.logger import get_logger
+from django.core.mail import send_mail
+from wq_app.emails.emailcontroller import consts, exceptions
+from wq_app.logger.logger import get_logger
 
 
 class EmailController(object):
@@ -10,61 +10,24 @@ class EmailController(object):
     Controls the email connection, which allows sending emails.
     """
 
-    def __init__(self, host=config.Email.SMTP_SERVER_HOST, port=config.Email.SMTP_SERVER_PORT):
+    @staticmethod
+    def send_email(subject, message, from_email, recipient_list, html_message=None):
         """
-        Initializes the object
-        :param host: The host of the SMTP sever.
-        :param port: The port of the SMTP sever.
+        Sends an email to the recipient list.
+        See Django's documentation(https://docs.djangoproject.com/en/1.11/topics/email/#django.core.mail.send_mail)
+        for more details.
+        :param subject: The subject of the email message
+        :param message: The message content
+        :param from_email: The source address for the email
+        :param recipient_list: A list of recipients to send the email to
+        :param html_message: If 'html_message' is provided, the resulting email will be a multipart/alternative email
+         with 'message' as the text/plain content type and html_message as the text/html content type.
+        :return: The amount of messages sent successfully
         """
-        self._connection = None
-        self._host = host
-        self._port = port
-        self._logger = get_logger(consts.EMAIL_CONTROLLER_LOGGER_NAME)
-
-    def send_mail(self, sender, receiver, message):
-        """
-        Sends an emails
-        :param sender: The sender of the emails
-        :param receiver: The receiver of the emails
-        :param message: The message to send
-        """
+        logger = get_logger(consts.EMAIL_CONTROLLER_LOGGER_NAME)
+        emails_sent = 0
         try:
-            self._connection.sendmail(sender, receiver, message)
-        except smtplib.SMTPRecipientsRefused as e:
-            self._logger.error("All of the given recipients were refused by the server",
-                               extra={"recipients": receiver, "error": str(e)})
-            raise exceptions.RecipientsRefusedError("All of the given recipients were refused by the server")
-        except smtplib.SMTPSenderRefused as e:
-            self._logger.error("The sender was refused by the server",
-                               extra={"sender": sender, "error": str(e)})
-            raise exceptions.SenderRefusedError("The sender was refused by the server")
-
-    def connect(self):
-        """
-        Connects to the SMTP server
-        """
-        try:
-            self._connection = smtplib.SMTP(self._host, self._port)
-        except smtplib.SMTPConnectError as e:
-            self._logger.error("An error has occurred while trying to connect to the server",
-                               extra={"host": self._host, "port": self._port, "error": str(e)})
-            raise exceptions.ConnectionError("An error has occurred while trying to connect to the server")
-
-    def disconnect(self):
-        """
-        Disconnects from the server
-        """
-        if self._connection:
-            self._connection.quit()
-
-    def __enter__(self):
-        """
-        Connects to the server
-        """
-        self.connect()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        Disconnects from the server
-        """
-        self.disconnect()
+            emails_sent = send_mail(subject, message, from_email, recipient_list, html_message=html_message)
+        except smtplib.SMTPException as e:
+            logger.exception("An error has occurred while trying to send an email.", extra={"error_message": str(e)})
+        return emails_sent
