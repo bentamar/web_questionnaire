@@ -19,6 +19,10 @@ def generate_activation_key(username):
     return hashlib.sha256((secret_key + username).encode('utf-8')).hexdigest()
 
 
+def index(request):
+    return render(request, 'wq_app/index.html')
+
+
 def register(request):
     if request.user.is_authenticated():
         return redirect(home)
